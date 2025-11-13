@@ -28,9 +28,9 @@ This project demonstrates a self-sovereign identity flow using Decentralized Ide
 
   # Landing Page Design for SSI Wallet
 
- This is a code bundle for Landing Page Design for SSI Wallet. The original project is available at https://www.figma.com/design/Tx9UMErSyxfON1OcWFafRe/Landing-Page-Design-for-SSI-Wallet.
+ This is a code bundle for Landing Page Design for SSI Wallet. The original project for viewing is available at https://pluck-melody-66272559.figma.site
 
-  ## Running the code
+  ## Running the code if downloading the landing page zip :
 
   Run `npm i` to install the dependencies.
 
