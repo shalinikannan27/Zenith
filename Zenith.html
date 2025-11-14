@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zenith Wallet</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: ui-sans-serif, system-ui, sans-serif;
+      background: linear-gradient(to bottom, #000000 0%, #001a1a 50%, #002626 100%);
+      color: #ffffff;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navigation */
+    nav {
+      border-bottom: 1px solid rgba(51, 255, 255, 0.3);
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(8px);
+      padding: 24px 0;
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      color: #33FFFF;
+    }
+
+    .logo-text {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ffffff;
+      letter-spacing: -0.025em;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.15s;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-outline {
+      border: 1px solid #33FFFF;
+      background: transparent;
+      color: #33FFFF;
+    }
+
+    .btn-outline:hover {
+      background: rgba(51, 255, 255, 0.1);
+    }
+
+    .btn-primary {
+      background: #33FFFF;
+      color: #000000;
+    }
+
+    .btn-primary:hover {
+      background: rgba(51, 255, 255, 0.8);
+    }
+
+    .btn-lg {
+      padding: 14px 32px;
+      font-size: 1.125rem;
+    }
+
+    /* Hero Section */
+    main {
+      padding: 48px 0 80px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .hero {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .hero-content {
+      max-width: 672px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(51, 255, 255, 0.1);
+      border: 1px solid rgba(51, 255, 255, 0.3);
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: #33FFFF;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -0.025em;
+    }
+
+    .text-accent {
+      color: #33FFFF;
+    }
+
+    .hero-description {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 32px;
+      line-height: 1.75;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    @media (min-width: 640px) {
+      .btn-group {
+        flex-direction: row;
+      }
+    }
+
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 16px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .feature-dot {
+      width: 8px;
+      height: 8px;
+      background: #00ff88;
+      border-radius: 50%;
+    }
+
+    /* DID Creation Form */
+    .did-form {
+      max-width: 672px;
+      margin: 0 auto;
+      padding: 48px 0;
+    }
+
+    .card {
+      background: #000000;
+      border: 2px solid rgba(51, 255, 255, 0.3);
+      border-radius: 1rem;
+      padding: 32px;
+    }
+
+    .card-header {
+      padding-bottom: 32px;
+      border-bottom: 1px solid rgba(51, 255, 255, 0.2);
+      margin-bottom: 32px;
+    }
+
+    .card-title {
+      font-size: 1.875rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .card-description {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .step {
+      margin-bottom: 32px;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid;
+      font-weight: 600;
+    }
+
+    .step-number.active {
+      background: rgba(51, 255, 255, 0.2);
+      border-color: #33FFFF;
+      color: #33FFFF;
+    }
+
+    .step-number.completed {
+      background: rgba(0, 255, 136, 0.2);
+      border-color: #00ff88;
+      color: #00ff88;
+    }
+
+    .step-number.disabled {
+      background: #1a1a1a;
+      border-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .step-content {
+      padding-left: 44px;
+    }
+
+    .step-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 4px;
+    }
+
+    .step-description {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .divider {
+      border-top: 1px solid rgba(51, 255, 255, 0.2);
+      margin: 32px 0;
+    }
+
+    .success-box {
+      margin-top: 32px;
+      padding: 24px;
+      background: rgba(0, 255, 136, 0.1);
+      border: 2px solid rgba(0, 255, 136, 0.3);
+      border-radius: 0.75rem;
+    }
+
+    .did-display {
+      background: #0a0a0a;
+      border: 1px solid rgba(51, 255, 255, 0.3);
+      border-radius: 0.5rem;
+      padding: 12px 16px;
+      font-family: ui-monospace, monospace;
+      font-size: 0.875rem;
+      color: #ffffff;
+      margin-top: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .did-display code {
+      flex: 1;
+      overflow-x: auto;
+    }
+
+    .btn-sm {
+      padding: 8px 12px;
+      font-size: 0.875rem;
+    }
+
+    /* Role Selection */
+    .role-selection {
+      margin-top: 48px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(51, 255, 255, 0.2);
+    }
+
+    .role-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    @media (min-width: 768px) {
+      .role-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .role-card {
+      background: #000000;
+      border: 2px solid rgba(51, 255, 255, 0.3);
+      border-radius: 1rem;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .role-card:hover {
+      border-color: rgba(51, 255, 255, 0.6);
+      background: rgba(51, 255, 255, 0.05);
+    }
+
+    .role-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 16px;
+      background: rgba(51, 255, 255, 0.2);
+      border: 1px solid rgba(51, 255, 255, 0.5);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #33FFFF;
+    }
+
+    .role-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .role-description {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .loading {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      border-top-color: #000000;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .trust-indicators {
+      margin-top: 80px;
+      padding-top: 48px;
+      border-top: 1px solid rgba(51, 255, 255, 0.2);
+      text-align: center;
+    }
+
+    .trust-label {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-bottom: 32px;
+    }
+
+    .trust-items {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+    }
+
+    .trust-item {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: rgba(51, 255, 255, 0.6);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <div class="logo">
+        <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+        <span class="logo-text">IdentityVault</span>
+      </div>
+      <button class="btn btn-outline">Sign In</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Landing View -->
+    <div id="landingView">
+      <div class="hero">
+        <div class="hero-content">
+          <div class="badge">
+            <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+            Self-Sovereign Identity
+          </div>
+          
+          <h1>
+            Your Digital Identity, <span class="text-accent">Secured</span>
+          </h1>
+          
+          <p class="hero-description">
+            Take control of your personal data with decentralized identity management. 
+            Private, secure, and entirely owned by you.
+          </p>
+
+          <div class="btn-group">
+            <button class="btn btn-primary btn-lg" onclick="showDIDForm()">
+              <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+              </svg>
+              Create Your Digital ID
+            </button>
+            <button class="btn btn-outline btn-lg">Learn More</button>
+          </div>
+
+          <div class="features">
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <span>Decentralized</span>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <span>Privacy-First</span>
+            </div>
+            <div class="feature-item">
+              <div class="feature-dot"></div>
+              <span>User-Controlled</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="trust-indicators">
+        <p class="trust-label">Trusted by leading organizations</p>
+        <div class="trust-items">
+          <div class="trust-item">W3C Compliant</div>
+          <div class="trust-item">Open Standards</div>
+          <div class="trust-item">Blockchain Verified</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DID Creation Form -->
+    <div id="didFormView" class="did-form hidden">
+      <div class="card">
+        <div class="card-header">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="width: 48px; height: 48px; background: rgba(51, 255, 255, 0.2); border: 1px solid rgba(51, 255, 255, 0.5); border-radius: 0.75rem; display: flex; align-items: center; justify-content: center;">
+              <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #33FFFF;">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+              </svg>
+            </div>
+            <div>
+              <h2 class="card-title">Create Your Decentralized ID</h2>
+              <p class="card-description">Follow the steps below to generate your secure digital identity</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <!-- Step 1: Connect Wallet -->
+          <div class="step">
+            <div class="step-header">
+              <div id="step1Number" class="step-number active">1</div>
+              <div>
+                <div class="step-title">Connect Your Wallet</div>
+                <div class="step-description">Connect your Web3 wallet to proceed with DID creation</div>
+              </div>
+            </div>
+            <div class="step-content">
+              <button id="connectWalletBtn" class="btn btn-primary" onclick="connectWallet()">
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                Connect Wallet
+              </button>
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- Step 2: Generate DID -->
+          <div class="step">
+            <div class="step-header">
+              <div id="step2Number" class="step-number disabled">2</div>
+              <div>
+                <div class="step-title" id="step2Title" style="color: rgba(255, 255, 255, 0.4);">Generate Your DID</div>
+                <div class="step-description">Create your unique decentralized identifier</div>
+              </div>
+            </div>
+            <div class="step-content">
+              <button id="generateDIDBtn" class="btn btn-primary" onclick="generateDID()" disabled>
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
+                </svg>
+                Generate DID
+              </button>
+            </div>
+          </div>
+
+          <!-- Success Message -->
+          <div id="successBox" class="success-box hidden">
+            <div style="display: flex; align-items: start; gap: 12px;">
+              <div style="width: 40px; height: 40px; background: rgba(0, 255, 136, 0.2); border: 1px solid rgba(0, 255, 136, 0.5); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                <svg width="24" height="24" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: #00ff88;">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div style="flex: 1;">
+                <h3 style="font-size: 1.125rem; font-weight: 600; color: #ffffff; margin-bottom: 8px;">
+                  Success! Your DID has been created and secured.
+                </h3>
+                <p style="font-size: 0.875rem; color: rgba(255, 255, 255, 0.7); margin-bottom: 16px;">
+                  Your decentralized identifier is ready to use. Keep it safe and share it as needed.
+                </p>
+                <div class="did-display">
+                  <code id="generatedDID"></code>
+                  <button class="btn btn-outline btn-sm" onclick="copyDID()">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  </button>
+                </div>
+                <div style="display: flex; gap: 12px; margin-top: 16px;">
+                  <button class="btn btn-primary" style="background: #00ff88; color: #000000;" onclick="showRoleSelection()">
+                    Continue to Role Selection
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Role Selection -->
+    <div id="roleSelectionView" class="hidden">
+      <div style="text-align: center; margin-bottom: 48px;">
+        <h1 style="font-size: 2.25rem; font-weight: 700; margin-bottom: 16px;">
+          Choose Your Role
+        </h1>
+        <p style="font-size: 1.125rem; color: rgba(255, 255, 255, 0.6);">
+          Select how you want to use the identity vault
+        </p>
+      </div>
+
+      <div class="role-grid">
+        <div class="role-card" onclick="window.location.href='user.html'">
+          <div class="role-icon">
+            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+            </svg>
+          </div>
+          <h3 class="role-title">User</h3>
+          <p class="role-description">View and manage your credentials with selective disclosure</p>
+        </div>
+
+        <div class="role-card" onclick="window.location.href='issuer.html'">
+          <div class="role-icon">
+            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h3 class="role-title">Issuer</h3>
+          <p class="role-description">Issue credentials and upload documents to IPFS</p>
+        </div>
+
+        <div class="role-card" onclick="window.location.href='verifier.html'">
+          <div class="role-icon">
+            <svg width="32" height="32" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="role-title">Verifier</h3>
+          <p class="role-description">Verify credentials and proofs from users</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let walletConnected = false;
+    let didGenerated = false;
+    let userDID = '';
+    let walletAddress = '';
+
+    function showDIDForm() {
+      document.getElementById('landingView').classList.add('hidden');
+      document.getElementById('didFormView').classList.remove('hidden');
+    }
+
+    function connectWallet() {
+      if (walletConnected) return;
+      
+      const btn = document.getElementById('connectWalletBtn');
+      btn.innerHTML = '<span class="loading"></span> Connecting...';
+      btn.disabled = true;
+
+      // Simulate wallet connection
+      setTimeout(() => {
+        walletConnected = true;
+        walletAddress = '0x' + Math.random().toString(16).substr(2, 40);
+        
+        // Update step 1
+        document.getElementById('step1Number').classList.remove('active');
+        document.getElementById('step1Number').classList.add('completed');
+        document.getElementById('step1Number').innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+        
+        btn.innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg> Wallet Connected';
+        btn.style.background = 'rgba(0, 255, 136, 0.1)';
+        btn.style.borderColor = '#00ff88';
+        btn.style.color = '#00ff88';
+        btn.disabled = true;
+
+        // Enable step 2
+        document.getElementById('step2Number').classList.remove('disabled');
+        document.getElementById('step2Number').classList.add('active');
+        document.getElementById('step2Title').style.color = '#ffffff';
+        document.getElementById('generateDIDBtn').disabled = false;
+      }, 1500);
+    }
+
+    function generateDID() {
+      if (didGenerated || !walletConnected) return;
+
+      const btn = document.getElementById('generateDIDBtn');
+      btn.innerHTML = '<span class="loading"></span> Generating...';
+      btn.disabled = true;
+
+      // Simulate DID generation
+      setTimeout(() => {
+        const randomString = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+        userDID = `did:example:${randomString}`;
+        didGenerated = true;
+
+        // Update step 2
+        document.getElementById('step2Number').classList.remove('active');
+        document.getElementById('step2Number').classList.add('completed');
+        document.getElementById('step2Number').innerHTML = '<svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>';
+
+        // Show success box
+        document.getElementById('generatedDID').textContent = userDID;
+        document.getElementById('successBox').classList.remove('hidden');
+        btn.disabled = true;
+      }, 2000);
+    }
+
+    function copyDID() {
+      navigator.clipboard.writeText(userDID).then(() => {
+        alert('DID copied to clipboard!');
+      });
+    }
+
+    function showRoleSelection() {
+      document.getElementById('didFormView').classList.add('hidden');
+      document.getElementById('roleSelectionView').classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
+
